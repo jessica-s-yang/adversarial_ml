@@ -1,4 +1,4 @@
-# adversarial_ml
+# mnist classifier on gpu
 
 #benchmarks
 
