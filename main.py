@@ -8,6 +8,7 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.optim as optim
 import matplotlib.pyplot as plt
+import time
 
 #parameters
 n_epochs = 3
@@ -24,7 +25,7 @@ torch.manual_seed(random_seed)
 def main():     
     #gpu
     device = get_default_device()
-
+    
     transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.1307,), (0.3081,))])
@@ -54,28 +55,33 @@ def main():
                       momentum=momentum)
 
     #examples of what we have
-    examples = enumerate(testloader)
-    batch_idx, (example_data, example_targets) = next(examples)
-    fig = plt.figure()
-    for i in range(4):
-        plt.subplot(2,3,i+1)
-        plt.tight_layout()
-        plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
-        plt.title("Ground Truth: {}".format(example_targets[i]))
-        plt.xticks([])
-        plt.yticks([])
-        plt.show()
-    fig
+    # examples = enumerate(testloader)
+    # batch_idx, (example_data, example_targets) = next(examples)
+    # fig = plt.figure()
+    # for i in range(4):
+    #     plt.subplot(2,3,i+1)
+    #     plt.tight_layout()
+    #     plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
+    #     plt.title("Ground Truth: {}".format(example_targets[i]))
+    #     plt.xticks([])
+    #     plt.yticks([])
+    #     plt.show()
+    # fig
 
     train_losses = []
     train_counter = []
     test_losses = []
-    test_counter = [i*len(trainloader.dataset) for i in range(n_epochs + 1)]
+    test_counter = [i*len(trainloader.dl.dataset) for i in range(n_epochs + 1)]
     
+    start_time = time.time()
     for epoch in range(1, n_epochs + 1):
         train(trainloader, network, optimizer, n_epochs, log_interval, train_losses, train_counter)
         test(network, test_losses, testloader)
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 if __name__ == '__main__':
     main()
+
+
+
     
