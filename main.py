@@ -51,22 +51,20 @@ def main():
     # model on GPU
     to_device(network, device)
 
+    # initialize optimizer
     optimizer = optim.SGD(network.parameters(), lr=learning_rate,
                       momentum=momentum)
 
-    #examples of what we have
-    # examples = enumerate(testloader)
-    # batch_idx, (example_data, example_targets) = next(examples)
-    # fig = plt.figure()
-    # for i in range(4):
-    #     plt.subplot(2,3,i+1)
-    #     plt.tight_layout()
-    #     plt.imshow(example_data[i][0], cmap='gray', interpolation='none')
-    #     plt.title("Ground Truth: {}".format(example_targets[i]))
-    #     plt.xticks([])
-    #     plt.yticks([])
-    #     plt.show()
-    # fig
+    # print model's state dict
+    # Print model's state_dict
+    print("Model's state_dict:")
+    for param_tensor in network.state_dict():
+        print(param_tensor, "\t", network.state_dict()[param_tensor].size())
+
+    # Print optimizer's state_dict
+    print("Optimizer's state_dict:")
+    for var_name in optimizer.state_dict():
+        print(var_name, "\t", optimizer.state_dict()[var_name])
 
     train_losses = []
     train_counter = []

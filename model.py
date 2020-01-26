@@ -11,9 +11,9 @@ class Net(nn.Module):
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
         self.conv2_drop = nn.Dropout2d()
         # hidden layer
-        self.fc1 = nn.Linear(320, 50) #in_size, hidden_size
+        self.fc1 = nn.Linear(in_size, hidden_size) #in_size, hidden_size
         # output layer
-        self.fc2 = nn.Linear(50, 10) #hidden_size, out_size
+        self.fc2 = nn.Linear(hidden_size, out_size) #hidden_size, out_size
 
     def forward(self, x):
         x = F.relu(F.max_pool2d(self.conv1(x), 2))

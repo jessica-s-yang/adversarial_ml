@@ -17,8 +17,8 @@ def train(train_loader, network, optimizer, epoch, log_interval, train_losses, t
                   train_losses.append(loss.item())
                   train_counter.append((batch_idx*64) + ((epoch-1)*len(train_loader.dl.dataset)))
             
-                  torch.save(network.state_dict(), os.getcwd()+'/results/model.pth')
-                  torch.save(optimizer.state_dict(), os.getcwd()+'/results/optimizer.pth')
+      torch.save(network.state_dict(), os.getcwd()+'/results/model.pth')
+      torch.save(optimizer.state_dict(), os.getcwd()+'/results/optimizer.pth')
       print('Finished Training')
 
       
