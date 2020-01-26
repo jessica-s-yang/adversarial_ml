@@ -56,7 +56,6 @@ def main():
                       momentum=momentum)
 
     # print model's state dict
-    # Print model's state_dict
     print("Model's state_dict:")
     for param_tensor in network.state_dict():
         print(param_tensor, "\t", network.state_dict()[param_tensor].size())

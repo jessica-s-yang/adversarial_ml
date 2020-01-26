@@ -2,20 +2,30 @@ import torch
 import torchvision
 import torch.optim as optim
 import torchvision.transforms as transforms
+import os
 from model import Net
 import matplotlib.pyplot as plt
 from DeviceDataLoader import DeviceDataLoader, get_default_device, to_device
+from test import test
 
 input_size = 320
 num_classes = 10
 network = Net(input_size, hidden_size=50, out_size=num_classes)
 # model on GPU
+device = get_default_device()
 to_device(network, device)
 
 #load trained model
-network_state_dict = torch.load('/Users/jessicayang/Workspace/Research/pytorch/results/model.pth')
+model_path = os.getcwd() + "/results/model.pth"
+network_state_dict = torch.load(model_path)
 network.load_state_dict(network_state_dict)
 
+# print model's state dict
+print("Model's state_dict:")
+for param_tensor in network.state_dict():
+    print(param_tensor, "\t", network.state_dict()[param_tensor].size())
+
+# setup
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.1307,), (0.3081,))])
@@ -26,6 +36,11 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=4,
 #wrap data loader for gpu
 testloader = DeviceDataLoader(testloader, device)
 
+# test the performance
+test_losses = []
+test(network, test_losses, testloader)
+
+# demo of samples
 examples = enumerate(testloader)
 batch_idx, (example_data, example_targets) = next(examples)
 
